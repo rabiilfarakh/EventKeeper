@@ -1,4 +1,4 @@
-package enumm;
+package enumeration;
 
 public enum Role {
     PARTICIPANT,

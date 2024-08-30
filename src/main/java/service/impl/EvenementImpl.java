@@ -1,39 +1,49 @@
 package service.impl;
 
+import dao.EventDAO;
 import entity.Evenement;
 import service.inter.EvenementService;
+
 import java.util.List;
 import java.util.Optional;
 
 public class EvenementImpl implements EvenementService {
 
+    private final EventDAO eventDAO;
 
+    public EvenementImpl(EventDAO eventDAO) {
+        this.eventDAO = eventDAO;
+    }
+
+    @Override
     public Evenement addEvent(Evenement event) {
-        return null;
+        eventDAO.addEvent(event);
+        return event;
     }
 
-
+    @Override
     public Evenement updateEvent(Long eventId, Evenement event) {
-        return null;
+        eventDAO.updateEvent(eventId, event);
+        return event;
     }
 
-
+    @Override
     public void deleteEvent(Long eventId) {
-
+        eventDAO.deleteEvent(eventId);
     }
 
-
+    @Override
     public List<Evenement> getAllEvents() {
-        return List.of();
+        return eventDAO.getAllEvents();
     }
 
-
-    public Optional<Evenement> getEventById() {
-        return Optional.empty();
+    @Override
+    public Optional<Evenement> getEventById(Long eventId) {
+        return Optional.ofNullable(eventDAO.getEventById(eventId));
     }
 
-
-    public List<Evenement> searchEvents(String date, String location, String type) {
-        return List.of();
+    @Override
+    public List<Evenement> searchEvents(String criterion) {
+        return eventDAO.searchEvents(criterion);
     }
 }
