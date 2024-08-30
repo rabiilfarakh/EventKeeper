@@ -1,5 +1,6 @@
-package ui;
+package ui.Handler;
 
+import java.util.Random;
 import entity.Evenement;
 import service.inter.EvenementService;
 
@@ -7,17 +8,18 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.Scanner;
 
 public class EventHandler {
 
     private final EvenementService evenementService;
     private final Scanner scanner;
+    private final Random random;
 
     public EventHandler(EvenementService evenementService) {
         this.evenementService = evenementService;
         this.scanner = new Scanner(System.in);
+        this.random = new Random();
     }
 
     public void addEvent() {
@@ -32,7 +34,8 @@ public class EventHandler {
         Date date = parseDate(dateStr);
 
         Evenement event = new Evenement();
-        event.setId(1L);
+        long id = random.nextLong(1000000L) + 1;
+        event.setId(id);
         event.setTitle(title);
         event.setDate(date);
         event.setType(type);

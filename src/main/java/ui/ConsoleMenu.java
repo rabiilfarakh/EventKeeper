@@ -1,16 +1,17 @@
 package ui;
 
 import service.inter.EvenementService;
+import ui.Handler.EventHandler;
 
 import java.util.Scanner;
 
 public class ConsoleMenu {
 
-    private final ui.EventHandler eventHandler;
+    private final EventHandler eventHandler;
     private final Scanner scanner;
 
     public ConsoleMenu(EvenementService evenementService) {
-        this.eventHandler = new ui.EventHandler(evenementService);
+        this.eventHandler = new EventHandler(evenementService);
         this.scanner = new Scanner(System.in);
     }
 
