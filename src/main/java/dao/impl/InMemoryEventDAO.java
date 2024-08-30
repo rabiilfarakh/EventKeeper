@@ -3,7 +3,10 @@ package dao.impl;
 import dao.EventDAO;
 import entity.Evenement;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,11 +49,35 @@ public class InMemoryEventDAO implements EventDAO {
     @Override
     public List<Evenement> searchEvents(String criterion) {
         List<Evenement> result = new ArrayList<>();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        boolean isDateCriterion = false;
+
+        Date criterionDate = null;
+        try {
+            criterionDate = dateFormat.parse(criterion);
+            isDateCriterion = true;
+        } catch (ParseException e) {
+        }
+
         for (Evenement event : events) {
-            if (event.getName().contains(criterion) || event.getEmail().contains(criterion)) {
+            boolean matches = false;
+
+            if (isDateCriterion) {
+                if (event.getDate().equals(criterionDate)) {
+                    matches = true;
+                }
+            } else {
+                if (event.getTitle().contains(criterion) || event.getType().contains(criterion)) {
+                    matches = true;
+                }
+            }
+
+            if (matches) {
                 result.add(event);
             }
         }
+
         return result;
     }
+
 }

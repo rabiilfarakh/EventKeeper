@@ -1,11 +1,14 @@
 package entity;
 
+import javax.xml.crypto.Data;
+import java.util.Date;
+
 public class Evenement {
 
     private Long id;
-    private String name;
-    private String email;
-    private String password;
+    private String title;
+    private Date date;
+    private String type;
 
     // Getter and Setter for id
     public Long getId() {
@@ -17,29 +20,29 @@ public class Evenement {
     }
 
     // Getter and Setter for name
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     // Getter and Setter for email
-    public String getEmail() {
-        return email;
+    public String getType() {
+        return type;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setType(String type) {
+        this.type = type;
     }
 
     // Getter and Setter for password
-    public String getPassword() {
-        return password;
+    public Date getDate() {
+        return date;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setDate(Date date) {
+        this.date = date;
     }
 }
