@@ -22,7 +22,7 @@ public class ConsoleMenu {
             System.out.println("2. Modifier un événement");
             System.out.println("3. Supprimer un événement");
             System.out.println("4. Afficher tous les événements");
-            System.out.println("5. Rechercher un événement par ID");
+            System.out.println("5. Rechercher un événement");
             System.out.println("6. Quitter");
             System.out.print("Choisissez une option : ");
 

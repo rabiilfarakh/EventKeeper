@@ -1,6 +1,6 @@
 package dao.impl;
 
-import dao.EventDAO;
+import dao.inter.EventDAO;
 import entity.Evenement;
 
 import java.text.ParseException;
@@ -8,7 +8,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 public class InMemoryEventDAO implements EventDAO {
     private List<Evenement> events = new ArrayList<>();

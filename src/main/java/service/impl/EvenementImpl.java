@@ -1,6 +1,6 @@
 package service.impl;
 
-import dao.EventDAO;
+import dao.inter.EventDAO;
 import entity.Evenement;
 import service.inter.EvenementService;
 

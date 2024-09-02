@@ -1,4 +1,4 @@
-package dao;
+package dao.inter;
 
 import entity.Evenement;
 import java.util.List;
