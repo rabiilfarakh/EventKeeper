@@ -1,18 +1,21 @@
 package service.impl;
 
 import dao.inter.EventDAO;
+import dao.inter.ParticipantDAO;
 import entity.Evenement;
+import entity.Participant;
 import service.inter.EvenementService;
 
 import java.util.List;
 import java.util.Optional;
 
 public class EvenementImpl implements EvenementService {
-
     private final EventDAO eventDAO;
+    private final ParticipantDAO participantDAO;
 
-    public EvenementImpl(EventDAO eventDAO) {
+    public EvenementImpl(EventDAO eventDAO, ParticipantDAO participantDAO) {
         this.eventDAO = eventDAO;
+        this.participantDAO = participantDAO;
     }
 
     @Override
@@ -45,5 +48,10 @@ public class EvenementImpl implements EvenementService {
     @Override
     public List<Evenement> searchEvents(String criterion) {
         return eventDAO.searchEvents(criterion);
+    }
+
+    @Override
+    public void addParticipantToEvent(Long eventId, Long participantId) {
+        eventDAO.addParticipantToEvent(eventId, participantId);
     }
 }

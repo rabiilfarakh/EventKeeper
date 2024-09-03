@@ -1,12 +1,13 @@
-package service.inter;
+package dao.inter;
 
 import entity.Participant;
 import java.util.List;
-import java.util.Optional;
 
-public interface ParticipantService {
+public interface ParticipantDAO {
 
     boolean deleteParticipant(Long participantId);
     List<Participant> getAllParticipants();
     void updateParticipant(Long participantId, Participant participant);
+    Participant getParticipantById(Long participantId);
+
 }

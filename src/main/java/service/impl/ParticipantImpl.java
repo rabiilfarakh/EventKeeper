@@ -1,34 +1,30 @@
 package service.impl;
 
+import dao.inter.ParticipantDAO;
 import entity.Participant;
 import service.inter.ParticipantService;
 
 import java.util.List;
-import java.util.Optional;
 
 public class ParticipantImpl implements ParticipantService {
+    private final ParticipantDAO participantDAO;
 
-    @Override
-    public Participant addParticipant(Participant participant) {
-        return null;
+    public ParticipantImpl(ParticipantDAO participantDAO) {
+        this.participantDAO = participantDAO;
     }
 
     @Override
-    public Participant updateParticipant(int participantId, Participant participant) {
-        return null;
+    public boolean deleteParticipant(Long participantId) {
+        return participantDAO.deleteParticipant(participantId);
     }
 
     @Override
-    public void deleteParticipant(int participantId) {
-
-    }
-
-    @Override
-    public Optional<Participant> getParticipantById(int participantId) {
-        return Optional.empty();
-    }
-
     public List<Participant> getAllParticipants() {
-        return List.of();
+        return participantDAO.getAllParticipants();
+    }
+
+    @Override
+    public void updateParticipant(Long participantId, Participant participant) {
+        participantDAO.updateParticipant(participantId, participant);
     }
 }

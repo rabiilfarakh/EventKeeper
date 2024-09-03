@@ -20,18 +20,11 @@ public class AuthenticationImpl implements AuthenticationService {
     public boolean registerParticipant(String username, String email, String password) {
         Long id = random.nextLong(1000000L) + 1;
         Participant participant = new Participant(id, username, email, password, "Unknown");
-        return authDAO.RegisterParticipant(participant);
-    }
-
-    @Override
-    public boolean unsubscribeParticipant(String email, String password) {
-        Participant participant = new Participant(null, null, email, password, null);
-        return authDAO.UnsubscribeParticipant(participant);
+        return authDAO.registerParticipant(participant);
     }
 
     @Override
     public User authenticate(String email, String password) {
         return authDAO.authenticate(email, password);
     }
-
 }

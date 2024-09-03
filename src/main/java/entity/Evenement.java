@@ -1,16 +1,30 @@
 package entity;
 
-import javax.xml.crypto.Data;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Evenement {
-
     private Long id;
     private String title;
-    private Date date;
     private String type;
+    private Date date;
+    private List<Participant> participants;
 
-    // Getter and Setter for id
+    // Constructor, getters and setters
+
+    public Evenement(Long id, String title, String type, Date date) {
+        this.id = id;
+        this.title = title;
+        this.type = type;
+        this.date = date;
+        this.participants = new ArrayList<>();
+    }
+
+    public Evenement() {
+        this.participants = new ArrayList<>();
+    }
+
     public Long getId() {
         return id;
     }
@@ -19,7 +33,6 @@ public class Evenement {
         this.id = id;
     }
 
-    // Getter and Setter for name
     public String getTitle() {
         return title;
     }
@@ -28,7 +41,6 @@ public class Evenement {
         this.title = title;
     }
 
-    // Getter and Setter for email
     public String getType() {
         return type;
     }
@@ -37,12 +49,23 @@ public class Evenement {
         this.type = type;
     }
 
-    // Getter and Setter for password
     public Date getDate() {
         return date;
     }
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public List<Participant> getParticipants() {
+        return participants;
+    }
+
+    public void setParticipants(List<Participant> participants) {
+        this.participants = participants;
+    }
+
+    public void addParticipant(Participant participant) {
+        this.participants.add(participant);
     }
 }
