@@ -2,7 +2,8 @@
 
 ## Use case
 
-![image](https://github.com/user-attachments/assets/be64d757-22d6-4e29-987a-0624fa367cf9)
+![Use case diagram](https://github.com/user-attachments/assets/b8425a49-1354-4c57-8e58-cc99a9666b26)
+
 
 
 ## Contexte du Projet
