@@ -1,5 +1,11 @@
 # Gestion d'Événements Java
 
+## Use case
+
+![Use case diagram](https://github.com/user-attachments/assets/b8425a49-1354-4c57-8e58-cc99a9666b26)
+
+
+
 ## Contexte du Projet
 
 Vous êtes un développeur Java travaillant sur un projet pour une entreprise ou une organisation ayant besoin de gérer divers événements tels que conférences, séminaires, réunions, et ateliers. L'objectif est de créer une application qui simplifie la gestion de ces événements pour les organisateurs et les participants.
