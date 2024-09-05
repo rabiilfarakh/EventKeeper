@@ -1,8 +1,8 @@
 package org.example;
 
 import org.example.entity.Evenement;
-import org.example.entity.User;
-import org.example.service.inter.EvenementService;
+import org.example.entity.Participant;
+import org.example.service.inter.*;
 
 import java.util.InputMismatchException;
 import java.util.List;
@@ -11,12 +11,17 @@ import java.util.Scanner;
 public class Console {
 
     private final EvenementService evenementService;
+    private final UserService userService;
+    private final RegistrationService registrationService;
+    private final ParticipantService participantService;
     private final Scanner scanner;
-    private final String ADMIN_USERNAME = "admin";
-    private final String ADMIN_PASSWORD = "admin";
 
-    public Console(EvenementService evenementService) {
+    public Console(EvenementService evenementService, UserService userService,
+                   RegistrationService registrationService, ParticipantService participantService) {
         this.evenementService = evenementService;
+        this.userService = userService;
+        this.registrationService = registrationService;
+        this.participantService = participantService;
         this.scanner = new Scanner(System.in);
     }
 
@@ -50,8 +55,17 @@ public class Console {
 
     private void handleRegistration() {
         System.out.println("\n=== Registration Menu ===");
-        System.out.println("You are now registered as a participant.");
-        // Registration logic can be added here if needed
+        System.out.print("Enter your name: ");
+        String name = scanner.next();
+        System.out.print("Enter a password: ");
+        String password = scanner.next();
+
+        Participant participant = new Participant();
+        participant.setUsername(name);
+        participant.setPassword(password);
+
+        participantService.register(participant);
+        System.out.println("Registration successful. You are now a participant.");
     }
 
     private void handleLogin() {
@@ -60,8 +74,13 @@ public class Console {
         System.out.print("Enter password: ");
         String password = scanner.next();
 
-        if (ADMIN_USERNAME.equals(username) && ADMIN_PASSWORD.equals(password)) {
-            handleAdminActions();
+        String userRole = userService.login(username, password);
+        if (userRole != null) {
+            if ("admin".equals(userRole)) {
+                handleAdminActions();
+            } else {
+                handleParticipantActions();
+            }
         } else {
             System.out.println("Invalid credentials. Please try again.");
         }
@@ -88,7 +107,29 @@ public class Console {
                     getEvent();
                     break;
                 case 6:
-                    return; // Return to the main menu
+                    return;
+                default:
+                    System.out.println("Invalid option. Please try again.");
+            }
+        }
+    }
+
+    private void handleParticipantActions() {
+        while (true) {
+            showParticipantMenu();
+            int choice = getUserInput();
+            switch (choice) {
+                case 1:
+                    registerInEvent();
+                    break;
+                case 2:
+                    listParticipantEvents();
+                    break;
+                case 3:
+                    searchEvent();
+                    break;
+                case 4:
+                    return;
                 default:
                     System.out.println("Invalid option. Please try again.");
             }
@@ -103,6 +144,14 @@ public class Console {
         System.out.println("4. Get All Events");
         System.out.println("5. Get Event by ID");
         System.out.println("6. Back to Main Menu");
+    }
+
+    private void showParticipantMenu() {
+        System.out.println("\n=== Participant Menu ===");
+        System.out.println("1. Register in an Event");
+        System.out.println("2. List My Registered Events");
+        System.out.println("3. Search Event");
+        System.out.println("4. Back to Main Menu");
     }
 
     private int getUserInput() {
@@ -193,7 +242,7 @@ public class Console {
             if (events.isEmpty()) {
                 System.out.println("No events found.");
             } else {
-                events.forEach(event -> System.out.println(event));
+                events.forEach(System.out::println);
             }
         } catch (Exception e) {
             System.out.println("Error retrieving events: " + e.getMessage());
@@ -213,6 +262,52 @@ public class Console {
             }
         } catch (Exception e) {
             System.out.println("Error retrieving event: " + e.getMessage());
+        }
+    }
+
+    private void registerInEvent() {
+        System.out.print("Enter event ID to register: ");
+        int eventId = getUserInput();
+        System.out.print("Enter your participant ID: ");
+        int participantId = getUserInput();
+
+        try {
+            registrationService.registerInEvent(eventId, participantId);
+            System.out.println("Successfully registered in the event.");
+        } catch (Exception e) {
+            System.out.println("Error registering in event: " + e.getMessage());
+        }
+    }
+
+    private void listParticipantEvents() {
+        System.out.print("Enter your participant ID: ");
+        int participantId = getUserInput();
+
+        try {
+            List<Evenement> events = registrationService.registration(participantId);
+            if (events.isEmpty()) {
+                System.out.println("You are not registered in any events.");
+            } else {
+                events.forEach(System.out::println);
+            }
+        } catch (Exception e) {
+            System.out.println("Error retrieving your events: " + e.getMessage());
+        }
+    }
+
+    private void searchEvent() {
+        System.out.print("Enter event ID: ");
+        int eventId = getUserInput();
+
+        try {
+            Evenement event = evenementService.getEvent(eventId);
+            if (event == null) {
+                System.out.println("Event not found.");
+            } else {
+                System.out.println(event);
+            }
+        } catch (Exception e) {
+            System.out.println("Error retrieving the event: " + e.getMessage());
         }
     }
 }

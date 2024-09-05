@@ -6,16 +6,19 @@ import org.example.entity.Evenement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class EvenementImplDAO implements EvenementDAO {
 
     private final List<Evenement> eventList = new ArrayList<>();
+    private final AtomicInteger idCounter = new AtomicInteger(1); // Compteur pour générer des IDs uniques
 
     @Override
     public void addEvent(Evenement event) {
         if (event == null) {
             throw new IllegalArgumentException("Event cannot be null");
         }
+        event.setId(idCounter.getAndIncrement()); // Génère un nouvel ID unique
         eventList.add(event);
     }
 
@@ -24,18 +27,29 @@ public class EvenementImplDAO implements EvenementDAO {
         if (event == null) {
             throw new IllegalArgumentException("Event cannot be null");
         }
-        if (eventId < 0 || eventId >= eventList.size()) {
-            throw new IndexOutOfBoundsException("Invalid event ID");
+        // Recherche de l'événement existant
+        Optional<Evenement> existingEventOpt = eventList.stream()
+                .filter(e -> e.getId().equals(eventId))
+                .findFirst();
+
+        if (existingEventOpt.isPresent()) {
+            Evenement existingEvent = existingEventOpt.get();
+            existingEvent.setName(event.getName());
+            existingEvent.setDate(event.getDate());
+            existingEvent.setDescription(event.getDescription());
+            existingEvent.setLocation(event.getLocation());
+        } else {
+            throw new IllegalArgumentException("Event with ID " + eventId + " does not exist");
         }
-        eventList.set(eventId, event);
     }
 
     @Override
     public void deleteEvent(Integer eventId) {
-        if (eventId < 0 || eventId >= eventList.size()) {
-            throw new IndexOutOfBoundsException("Invalid event ID");
+        // Recherche et suppression de l'événement
+        boolean removed = eventList.removeIf(e -> e.getId().equals(eventId));
+        if (!removed) {
+            throw new IllegalArgumentException("Event with ID " + eventId + " does not exist");
         }
-        eventList.remove((int) eventId);
     }
 
     @Override
@@ -45,9 +59,10 @@ public class EvenementImplDAO implements EvenementDAO {
 
     @Override
     public Evenement getEvent(Integer eventId) {
-        if (eventId < 0 || eventId >= eventList.size()) {
-            throw new IndexOutOfBoundsException("Invalid event ID");
-        }
-        return eventList.get(eventId);
+        // Recherche de l'événement
+        return eventList.stream()
+                .filter(e -> e.getId().equals(eventId))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Event with ID " + eventId + " does not exist"));
     }
 }

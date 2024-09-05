@@ -4,5 +4,5 @@ import org.example.entity.User;
 
 public interface UserService {
 
-    void login(User user);
+    String login(String username, String password);
 }

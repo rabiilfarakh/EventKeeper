@@ -9,11 +9,13 @@ public class AdminImplDAO implements AdminDAO {
 
     @Override
     public List<Registration> getReportOfParticipant(String username) {
+
         return List.of();
     }
 
     @Override
     public List<Registration> getReportOfEvent(int eventID) {
+
         return List.of();
     }
 }
