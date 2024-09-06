@@ -38,4 +38,9 @@ public class EvenementImpl implements EvenementService {
     public Evenement getEvent(Integer eventId) {
         return evenementDAO.getEvent(eventId);
     }
+
+    @Override
+    public Evenement search(String data) {
+        return evenementDAO.search(data);
+    }
 }

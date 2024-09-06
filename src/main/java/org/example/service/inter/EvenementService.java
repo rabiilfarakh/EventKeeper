@@ -15,4 +15,6 @@ public interface EvenementService {
     List<Evenement> getAllEvents();
 
     Evenement getEvent(Integer eventId);
+
+    Evenement search(String data);
 }

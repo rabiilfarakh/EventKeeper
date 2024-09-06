@@ -1,19 +1,19 @@
 package org.example.dao.impl;
 
 import org.example.dao.inter.UserDAO;
-import org.example.entity.User;
+import org.example.entity.Participant;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 
 public class UserImplDAO implements UserDAO {
 
     private static final String ADMIN_USERNAME = "admin";
     private static final String ADMIN_PASSWORD = "admin";
-    private List<User> participants;
+    private Map<Integer, Participant> participants;
 
-    public UserImplDAO() {
-        this.participants = new ArrayList<>();
+    // Inject the same Map of participants used by ParticipantImplDAO
+    public UserImplDAO(Map<Integer, Participant> participants) {
+        this.participants = participants;
     }
 
     @Override
@@ -21,12 +21,12 @@ public class UserImplDAO implements UserDAO {
         if (ADMIN_USERNAME.equals(username) && ADMIN_PASSWORD.equals(password)) {
             return ADMIN_USERNAME;
         } else {
-            for (User participant : participants) {
+            for (Participant participant : participants.values()) {
                 if (participant.getUsername().equals(username)) {
                     if (participant.getPassword().equals(password)) {
                         return participant.getUsername();
                     } else {
-                        return null ;//"Mot de passe incorrect";
+                        return "Mot de passe incorrect";
                     }
                 }
             }

@@ -8,6 +8,8 @@ import org.example.dao.inter.EvenementDAO;
 import org.example.dao.inter.ParticipantDAO;
 import org.example.dao.inter.RegistrationDAO;
 import org.example.dao.inter.UserDAO;
+import org.example.entity.Evenement;
+import org.example.entity.Participant;
 import org.example.service.impl.EvenementImpl;
 import org.example.service.impl.ParticipantImpl;
 import org.example.service.impl.RegistrationImpl;
@@ -17,13 +19,26 @@ import org.example.service.inter.ParticipantService;
 import org.example.service.inter.RegistrationService;
 import org.example.service.inter.UserService;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class Main {
     public static void main(String[] args) {
-        // Initialize DAOs
-        EvenementDAO evenementDAO = new EvenementImplDAO();
-        ParticipantDAO participantDAO = new ParticipantImplDAO();
-        RegistrationDAO registrationDAO = new RegistrationImplDAO();
-        UserDAO userDAO = new UserImplDAO();
+
+        // Create shared Map for participants
+        Map<Integer, Participant> participants = new HashMap<>();
+        // Create shared List for evenemenets
+        List<Evenement> eventList = new ArrayList<>();
+        // Create shared Map for participantsInEvent
+        Map<Evenement, Participant> participantsInEvent = new HashMap<>();
+
+        // Initialize DAOs with the shared Map
+        EvenementDAO evenementDAO = new EvenementImplDAO(eventList);
+        ParticipantDAO participantDAO = new ParticipantImplDAO(participants);
+        RegistrationDAO registrationDAO = new RegistrationImplDAO(participantsInEvent,eventList,participants);
+        UserDAO userDAO = new UserImplDAO(participants);
 
         // Initialize Services
         EvenementService evenementService = new EvenementImpl(evenementDAO);
@@ -36,3 +51,4 @@ public class Main {
         console.run();
     }
 }
+

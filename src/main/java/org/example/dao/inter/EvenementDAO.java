@@ -16,4 +16,6 @@ public interface EvenementDAO {
 
     Evenement getEvent(Integer eventId);
 
+    Evenement search(String data);
+
 }

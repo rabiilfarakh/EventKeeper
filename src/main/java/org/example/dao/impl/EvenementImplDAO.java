@@ -10,8 +10,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class EvenementImplDAO implements EvenementDAO {
 
-    private final List<Evenement> eventList = new ArrayList<>();
+    private List<Evenement> eventList;
     private final AtomicInteger idCounter = new AtomicInteger(1); // Compteur pour générer des IDs uniques
+
+    public EvenementImplDAO(List<Evenement> eventList) {
+        this.eventList = eventList;
+    }
 
     @Override
     public void addEvent(Evenement event) {
@@ -65,4 +69,16 @@ public class EvenementImplDAO implements EvenementDAO {
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Event with ID " + eventId + " does not exist"));
     }
+
+    @Override
+    public Evenement search(String data) {
+        return eventList.stream()
+                .filter(event -> event.getId().toString().equals(data) || // Recherche par ID
+                        event.getName().equalsIgnoreCase(data) || // Recherche par nom
+                        event.getDate().toString().equals(data) || // Recherche par date
+                        event.getLocation().equalsIgnoreCase(data)) // Recherche par emplacement
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("No event found matching: " + data));
+    }
+
 }

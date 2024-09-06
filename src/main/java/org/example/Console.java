@@ -1,5 +1,7 @@
 package org.example;
 
+import org.example.dao.impl.ParticipantImplDAO;
+import org.example.dao.impl.UserImplDAO;
 import org.example.entity.Evenement;
 import org.example.entity.Participant;
 import org.example.service.inter.*;
@@ -86,6 +88,7 @@ public class Console {
         }
     }
 
+
     private void handleAdminActions() {
         while (true) {
             showAdminMenu();
@@ -107,12 +110,19 @@ public class Console {
                     getEvent();
                     break;
                 case 6:
+                    viewParticipants();
+                    break;
+                case 7:
+                    searchEvent();
+                    break;
+                case 8:
                     return;
                 default:
                     System.out.println("Invalid option. Please try again.");
             }
         }
     }
+
 
     private void handleParticipantActions() {
         while (true) {
@@ -136,6 +146,7 @@ public class Console {
         }
     }
 
+
     private void showAdminMenu() {
         System.out.println("\n=== Admin Menu ===");
         System.out.println("1. Add Event");
@@ -143,7 +154,9 @@ public class Console {
         System.out.println("3. Delete Event");
         System.out.println("4. Get All Events");
         System.out.println("5. Get Event by ID");
-        System.out.println("6. Back to Main Menu");
+        System.out.println("6. View Participants");
+        System.out.println("7. Search Event");
+        System.out.println("8. Back to Main Menu");
     }
 
     private void showParticipantMenu() {
@@ -296,18 +309,38 @@ public class Console {
     }
 
     private void searchEvent() {
-        System.out.print("Enter event ID: ");
-        int eventId = getUserInput();
+        System.out.print("Enter search term (could be ID, name, or any related data): ");
+        String searchData = scanner.nextLine();
 
         try {
-            Evenement event = evenementService.getEvent(eventId);
-            if (event == null) {
-                System.out.println("Event not found.");
+            Evenement event = evenementService.search(searchData);
+            if (event != null) {
+                System.out.println("Event found: " + event);
             } else {
-                System.out.println(event);
+                System.out.println("No event found matching the search term.");
             }
         } catch (Exception e) {
-            System.out.println("Error retrieving the event: " + e.getMessage());
+            System.out.println("Error searching for the event: " + e.getMessage());
         }
     }
+
+
+    private void viewParticipants() {
+        try {
+            List<Participant> participants = participantService.getParticipants();
+            if (participants.isEmpty()) {
+                System.out.println("No participants found.");
+            } else {
+                System.out.println("\n=== Participants List ===");
+                participants.forEach(participant -> {
+                    System.out.println("ID: " + participant.getId() + ", Username: " + participant.getUsername());
+                });
+            }
+        } catch (Exception e) {
+            System.out.println("Error retrieving participants: " + e.getMessage());
+        }
+    }
+
+
+
 }

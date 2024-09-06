@@ -3,15 +3,20 @@ package org.example.dao.impl;
 import org.example.dao.inter.ParticipantDAO;
 import org.example.entity.Participant;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.ArrayList;
 
 public class ParticipantImplDAO implements ParticipantDAO {
 
-    private Map<Integer, Participant> participants = new HashMap<>();
+    private Map<Integer, Participant> participants;
     private int currentId = 1;
+
+
+    public ParticipantImplDAO(Map<Integer, Participant> participants) {
+        this.participants = participants;
+    }
 
     @Override
     public void register(Participant participant) {
