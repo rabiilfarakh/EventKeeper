@@ -22,7 +22,7 @@ public class EvenementImplDAO implements EvenementDAO {
         if (event == null) {
             throw new IllegalArgumentException("Event cannot be null");
         }
-        event.setId(idCounter.getAndIncrement()); // Génère un nouvel ID unique
+        event.setId(idCounter.getAndIncrement());
         eventList.add(event);
     }
 
